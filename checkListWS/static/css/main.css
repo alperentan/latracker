@@ -1,0 +1,66 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+    color: #ADB5BD;
+}
+p {
+    color: white;
+}
+body {
+    background-color: #222222;
+  }
+html{
+    font-family: 'Albert Sans', sans-serif;
+}
+#navbar {
+    color: #fff5e6;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    padding: 0 0.75rem;
+    height: 70px;
+}
+/* navbar icinde list noktalarini kaldirma*/
+#navbar ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+#navbar ul li a{
+    padding: 0.75rem;
+}
+#navbar ul li a:hover{
+    color: white;
+    background: #3498DB;
+    border-radius: 4px;
+}
+#navbar h1 a{
+    color: white;
+    margin-right: 1rem;
+}
+div label{
+    display: inline-block;
+    color: white;
+    padding: 0.5rem;
+}
+div p{
+    padding: 0.5rem;
+    color: white;
+}
+div label p{
+    color: white;
+}
+input[type=checkbox] {
+    transform: scale(1.12);
+}
+#daily {
+    color: rgb(192, 170, 170);
+}
+#weekly {
+    color: #928cb3;
+}

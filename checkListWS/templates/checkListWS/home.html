@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>Check List</title>
+<meta charset="UTF-8"/>
+<meta name="keywords" content="Check List">
+<meta name="description" content="Check list of anything">
+<!-- Fonts Google -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;700&display=swap" rel="stylesheet">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+
+<link rel="stylesheet" href="{% static 'css/global.css' %}">
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+<!-- Tablet -->
+<link rel="stylesheet" media="(max-width:768px)" href="{% static 'css/tablet.css' %}">
+<!-- Mobile -->
+<link rel="stylesheet" media="(max-width:500px)" href="{% static 'css/mobile.css' %}">
+<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+</head>
+<body>
+<header class="bg-dark-blue">
+    <div class="container">
+        <nav id="navbar">
+            <h1 class="heading-medium"><a href="/">Check List</a></h1>
+    
+            <ul>
+                <li><a href="/">Lists</a></li>
+                <li><a href="/about">About</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<div id="checkbox-container">
+    <p id="weekly"><b>Argos:</b></p>
+    <label>Gate 1-2-3
+        <input type="checkbox" id="cbox1">
+    </label>
+    <div class="listborder"></div>
+    <p id="weekly"><b>Valtan Hard Mode:</b></p>
+    <label>Gate 1
+        <input type="checkbox" id="cbox2">
+    </label>
+    <label>Gate 2
+        <input type="checkbox" id="cbox3">
+    </label>
+    <div class="listborder"></div>
+    <p id="weekly"><b>Vykas Normal/Hard Mode:</b></p>
+    <label>Gate 1
+        <input type="checkbox" id="cbox4">
+    </label>
+    <label>Gate 2
+        <input type="checkbox" id="cbox5">
+    </label>
+    <label>Gate 3
+        <input type="checkbox" id="cbox6">
+    </label>
+    <div class="listborder"></div>
+    <p id="weekly"><b>Challange Guardian Raid:</b></p>
+    <label>Done
+        <input type="checkbox" id="cbox7">
+    </label>
+    <div class="listborder"></div>
+    <p id="daily"><b>Chaos Dungeon:</b></p>
+    <label>Done
+        <input type="checkbox" id="cbox8">
+    </label>
+    <div class="listborder"></div>
+    <p id="daily"><b>Guardian Raid:</b></p>
+    <label>Done
+        <input type="checkbox" id="cbox9">
+    </label>
+    <div class="listborder"></div>
+    <p id="daily"><b>Una 3 Daily Quest:</b></p>
+    <label>Done
+        <input type="checkbox" id="cbox10">
+    </label>
+    <div class="listborder"></div>
+    <p id="daily"><b>Daily Event:</b></p>
+    <label>Done
+        <input type="checkbox" id="cbox11">
+    </label>
+</div>
+<script>
+    /* ... || {} = eger ilk kısım false ise bos objeyi ata*/
+    var checkboxValues = JSON.parse(localStorage.getItem('checkboxValues')) || {};
+    var $checkboxes = $("#checkbox-container :checkbox");
+
+    var currentDate = new Date();
+    //console.log(currentDate);
+    //console.log(localStorage.getItem("checkedDateDaily"));
+    var checkedDateDaily = new Date(localStorage.getItem("checkedDateDaily"));
+    var destTimeDaily = new Date(checkedDateDaily.valueOf());
+    destTimeDaily.setHours(12,0,0,0);
+    var checkedDateWeekly = new Date(localStorage.getItem("checkedDateWeekly"));
+    checkedDateWeekly.setHours(13,0,0,0);
+    var day = 7 - checkedDateWeekly.getDay() + 3;
+    var weeklyResetDay = new Date(checkedDateWeekly.setDate(checkedDateWeekly.getDate()+day));
+    if(checkedDateDaily.getHours()>=12){
+        destTimeDaily.setDate(checkedDateDaily.getDate()+1);
+    }
+    $checkboxes.on("change", function(){
+        $checkboxes.each(function(){
+        checkboxValues[this.id] = this.checked;
+    });
+    localStorage.setItem("checkboxValues", JSON.stringify(checkboxValues));
+
+    var checkedDateDaily = new Date();
+    localStorage.setItem("checkedDateDaily",checkedDateDaily);
+    var checkedDateWeekly = new Date();
+    localStorage.setItem("checkedDateWeekly",checkedDateWeekly);
+    });
+    $.each(checkboxValues, function(key, value) {
+        $("#" + key).prop('checked', value);
+    });
+    if(currentDate>destTimeDaily){
+        localStorage.setItem("checkedDateDaily",null);
+        destTimeDaily=null;        
+        //clear daily checkboxes
+        document.getElementById("cbox8").checked=false;
+        document.getElementById("cbox9").checked=false;
+        document.getElementById("cbox10").checked=false;
+        document.getElementById("cbox11").checked=false;
+        checkboxValues["cbox8"] = null;
+        checkboxValues["cbox9"] = null;
+        checkboxValues["cbox10"] = null;
+        checkboxValues["cbox11"] = null;
+        localStorage.setItem("checkboxValues", JSON.stringify(checkboxValues));
+    }
+    if(currentDate>weeklyResetDay){
+        localStorage.setItem("checkedDateWeekly",null);
+        weeklyResetDay=null;        
+        //clear weekly checkboxes
+        document.getElementById("cbox1").checked=false;
+        document.getElementById("cbox2").checked=false;
+        document.getElementById("cbox3").checked=false;
+        document.getElementById("cbox4").checked=false;
+        document.getElementById("cbox5").checked=false;
+        document.getElementById("cbox6").checked=false;
+        document.getElementById("cbox7").checked=false;
+        checkboxValues["cbox1"] = null;
+        checkboxValues["cbox2"] = null;
+        checkboxValues["cbox3"] = null;
+        checkboxValues["cbox4"] = null;
+        checkboxValues["cbox5"] = null;
+        checkboxValues["cbox6"] = null;
+        checkboxValues["cbox7"] = null;
+        localStorage.setItem("checkboxValues", JSON.stringify(checkboxValues));
+    }
+</script>
+</body>
+</html>
