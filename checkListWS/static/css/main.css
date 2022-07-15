@@ -11,6 +11,10 @@ a {
 p {
     color: white;
 }
+p a {
+    color: #0071C1;
+    text-decoration: underline;
+}
 body {
     background-color: #222222;
   }
