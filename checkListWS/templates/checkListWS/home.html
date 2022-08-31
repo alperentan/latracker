@@ -90,18 +90,20 @@
     var $checkboxes = $("#checkbox-container :checkbox");
 
     var currentDate = new Date();
+    var timezoneOffset = date.getTimezoneOffset();
+    currentDate.setMinutes(date.getMinutes()+timezoneOffset);
     //console.log(currentDate);
     //console.log(localStorage.getItem("checkedDateDaily"));
     var checkedDateDaily = new Date(localStorage.getItem("checkedDateDaily"));
     var destTimeDaily = new Date(checkedDateDaily.valueOf());
-    destTimeDaily.setHours(12,0,0,0);
+    destTimeDaily.setHours(9,0,0,0);
 
     var checkedDateWeekly = new Date(localStorage.getItem("checkedDateWeekly"));
 
     //bir sonraki carsamba gununu bul ve degiskene ata
     var day = new Date(checkedDateWeekly.valueOf());
     day.setDate(day.getDate() + (((3 + 7 - day.getDay()) % 7) || 7));
-    day.setHours(13,0,0,0);
+    day.setHours(10,0,0,0);
     var weeklyResetDay = new Date(day.valueOf());
 
     if(checkedDateDaily.getHours()>=12){
