@@ -90,8 +90,8 @@
     var $checkboxes = $("#checkbox-container :checkbox");
 
     var currentDate = new Date();
-    var timezoneOffset = date.getTimezoneOffset();
-    currentDate.setMinutes(date.getMinutes()+timezoneOffset);
+    var timezoneOffset = currentDate.getTimezoneOffset();
+    currentDate.setMinutes(currentDate.getMinutes()+timezoneOffset);
     //console.log(currentDate);
     //console.log(localStorage.getItem("checkedDateDaily"));
     var checkedDateDaily = new Date(localStorage.getItem("checkedDateDaily"));
