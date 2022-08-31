@@ -26,7 +26,7 @@
     <div class="container">
         <nav id="navbar">
             <h1 class="heading-medium"><a href="/">Check List</a></h1>
-    
+
             <ul>
                 <li><a href="/">Lists</a></li>
                 <li><a href="/about">About</a></li>
@@ -95,30 +95,39 @@
     var checkedDateDaily = new Date(localStorage.getItem("checkedDateDaily"));
     var destTimeDaily = new Date(checkedDateDaily.valueOf());
     destTimeDaily.setHours(12,0,0,0);
+
     var checkedDateWeekly = new Date(localStorage.getItem("checkedDateWeekly"));
-    checkedDateWeekly.setHours(13,0,0,0);
-    var day = 7 - checkedDateWeekly.getDay() + 3;
-    var weeklyResetDay = new Date(checkedDateWeekly.setDate(checkedDateWeekly.getDate()+day));
+
+    //bir sonraki carsamba gununu bul ve degiskene ata
+    var day = new Date(checkedDateWeekly.valueOf());
+    day.setDate(day.getDate() + (((3 + 7 - day.getDay()) % 7) || 7));
+    day.setHours(13,0,0,0);
+    var weeklyResetDay = new Date(day.valueOf());
+
     if(checkedDateDaily.getHours()>=12){
         destTimeDaily.setDate(checkedDateDaily.getDate()+1);
     }
+
     $checkboxes.on("change", function(){
         $checkboxes.each(function(){
         checkboxValues[this.id] = this.checked;
     });
+
     localStorage.setItem("checkboxValues", JSON.stringify(checkboxValues));
 
-    var checkedDateDaily = new Date();
+    checkedDateDaily = new Date();
     localStorage.setItem("checkedDateDaily",checkedDateDaily);
-    var checkedDateWeekly = new Date();
+
+    checkedDateWeekly = new Date(checkedDateDaily.valueOf());
     localStorage.setItem("checkedDateWeekly",checkedDateWeekly);
     });
+
     $.each(checkboxValues, function(key, value) {
         $("#" + key).prop('checked', value);
     });
     if(currentDate>destTimeDaily){
         localStorage.setItem("checkedDateDaily",null);
-        destTimeDaily=null;        
+        destTimeDaily=null;
         //clear daily checkboxes
         document.getElementById("cbox8").checked=false;
         document.getElementById("cbox9").checked=false;
@@ -130,9 +139,10 @@
         checkboxValues["cbox11"] = null;
         localStorage.setItem("checkboxValues", JSON.stringify(checkboxValues));
     }
+
     if(currentDate>weeklyResetDay){
         localStorage.setItem("checkedDateWeekly",null);
-        weeklyResetDay=null;        
+        weeklyResetDay=null;
         //clear weekly checkboxes
         document.getElementById("cbox1").checked=false;
         document.getElementById("cbox2").checked=false;
